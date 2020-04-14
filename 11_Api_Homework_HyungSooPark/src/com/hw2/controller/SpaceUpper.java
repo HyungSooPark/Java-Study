@@ -17,8 +17,13 @@ public class SpaceUpper {
 		
 		while(st.hasMoreTokens()) {
 			String temp = st.nextToken();
-			stb.append(temp.substring(0, 1).toUpperCase());
-			stb.append(temp.substring(1)).append(" ");
+			//stb.append(temp.substring(0, 1).toUpperCase());
+			//stb.append(temp.substring(1)).append(" ");
+			for(int i=0;i<temp.length();i++) {
+				if(i==0) stb.append(temp.toUpperCase().charAt(i));
+				else stb.append(temp.charAt(i));
+			}
+			stb.append(" ");
 		}
 		
 		System.out.println(stb);

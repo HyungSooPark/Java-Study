@@ -24,34 +24,8 @@ public class SetDate {
 		
 		c.set(2011, 3-1, 21);
 		
-		String str = null;
-		
-		SimpleDateFormat sdf = new SimpleDateFormat("MM");
-		
-		switch(c.get(c.DAY_OF_WEEK)) {
-		case 1:
-			str = "일요일";
-			break;
-		case 2:
-			str = "월요일";
-			break;
-		case 3:
-			str = "화요일";
-			break;
-		case 4:
-			str = "수요일";
-			break;
-		case 5:
-			str = "목요일";
-			break;
-		case 6:
-			str = "금요일";
-			break;
-		case 7:
-			str = "토요일";
-			break;
-		}
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy년 MM월 dd일 E요일");
 				
-		return c.get(c.YEAR)+"년 "+sdf.format(c.getTime())+"월 "+c.get(c.DATE)+"일 "+str;
+		return sdf.format(c.getTime());
 	}
 }
