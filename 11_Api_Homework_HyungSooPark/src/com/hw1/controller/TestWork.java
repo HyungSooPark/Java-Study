@@ -6,7 +6,7 @@ import java.util.StringTokenizer;
 public class TestWork {
 	public TestWork() {}
 	
-	public StringBuilder afterToken(String str) {
+	public void afterToken(String str) {
 		StringTokenizer st = new StringTokenizer(str," ");
 		char[] strArr = new char[st.countTokens()];
 		int i=0;
@@ -24,8 +24,6 @@ public class TestWork {
 		System.out.println("토큰 처리 후 갯수 : "+strArr.length);
 				
 		System.out.println("모두 대문자로 변환 : "+String.copyValueOf(strArr).toUpperCase());
-		
-		return null;
 	}
 	
 	public void findChar() {
@@ -34,7 +32,16 @@ public class TestWork {
 		System.out.print("문자열을 입력하세요 : ");
 		String str = sc.next();
 		
+		//1.substring 메소드를 통해 첫 글자만 잘라서 대문자로 출력 후 나머지 출력
 		System.out.println("첫 글자 대문자 : "+str.substring(0,1).toUpperCase()+str.substring(1));
+		
+		//2.StringBuilder에 append를 통해 첫 글자만 대문자로 변경하여 저장
+		/*StringBuilder stb = new StringBuilder();
+		for(int i=0;i<str.length();i++) {
+			if(i==0) stb.append(str.toUpperCase().charAt(0));
+			else stb.append(str.charAt(i));
+		}
+		System.out.println("첫 글자 대문자 : "+stb);*/
 		
 		System.out.print("찾을 문자 하나를 입력하세요 : ");
 		char c = sc.next().charAt(0);
