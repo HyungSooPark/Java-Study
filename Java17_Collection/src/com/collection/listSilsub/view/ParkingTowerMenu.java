@@ -13,7 +13,7 @@ public class ParkingTowerMenu {
 	public ParkingTowerMenu() {}
 	
 	public void mainMenu() {
-		loop:
+		
 		while(true) {
 			
 			System.out.println("=== *주차 타워 관리* ===");
@@ -33,10 +33,9 @@ public class ParkingTowerMenu {
 				break;
 			case 0:
 				System.out.print("프로그램 종료");
-				break loop;
+				return;
 			default:
 				System.out.println("잘못된 메뉴 선택입니다.");
-				break;
 			}
 		System.out.println();
 		
