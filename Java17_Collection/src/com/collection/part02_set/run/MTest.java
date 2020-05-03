@@ -8,11 +8,11 @@ public class MTest {
 	public static void main(String[] args) {
 		TestHashSet ths = new TestHashSet();
 		
-		//ths.testHashSet();
+		ths.testHashSet();
 		
 		TestLinkedHashSet tlhs = new TestLinkedHashSet();
 		
-		tlhs.testLinkedHashSet();
+		//tlhs.testLinkedHashSet();
 	}
 
 }
