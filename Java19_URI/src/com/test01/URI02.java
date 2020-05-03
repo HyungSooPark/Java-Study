@@ -10,6 +10,7 @@ import java.net.URLConnection;
 public class URI02 {
 	public static void main(String[] args) throws IOException {
 		byte[] b = new byte[1];
+		
 		URL url = new URL("https://t1.daumcdn.net/cfile/tistory/2206CA4457F7750230");
 		
 		URLConnection urlConnection = url.openConnection();
