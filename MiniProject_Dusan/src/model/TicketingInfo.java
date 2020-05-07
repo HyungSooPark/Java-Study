@@ -8,7 +8,12 @@ import java.util.LinkedHashSet;
 
 import controller.TicketingController;
 
-public class TicketingInfo {
+public class TicketingInfo implements java.io.Serializable{
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private int TicketingNo;
 	private Date TicketingDate;
 	
@@ -28,7 +33,7 @@ public class TicketingInfo {
 		this.PW = PW;
 		this.name = name;
 		this.TicketingDate = new Date();
-		this.TicketingNo = TicketingController.createKey();
+		this.TicketingNo = (int) (Math.random()*1000000000);
 	}
 
 	public String getName() {
@@ -119,5 +124,14 @@ public class TicketingInfo {
 	
 	public String getTicketingNo() {
 		return String.valueOf(TicketingNo);
+	}
+	
+	public void print() {
+		System.out.println(name);
+		System.out.println(game);
+		System.out.println(block);
+		System.out.println(SeatToString());
+		System.out.println(totalPrice);
+		System.out.println();
 	}
 }

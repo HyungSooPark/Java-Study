@@ -11,6 +11,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTable;
 
+import controller.TicketingController;
 import model.TicketingInfo;
 
 public class TicketingFinal extends JPanel {
@@ -29,9 +30,9 @@ public class TicketingFinal extends JPanel {
 		home.setBounds(95, 55, 200, 20);
 		this.add(home);
 		
-		Image icon = new ImageIcon("images/icon.png").getImage().getScaledInstance(70, 60, 100);
+		Image icon = new ImageIcon("images/icon.png").getImage().getScaledInstance(75, 60, 100);
 		JLabel image = new JLabel(new ImageIcon(icon));
-		image.setBounds(77, 60, 100, 100);
+		image.setBounds(75, 60, 100, 100);
 		this.add(image);
 		
 		insertAwayIcon(this,ti.getAwayTeam());

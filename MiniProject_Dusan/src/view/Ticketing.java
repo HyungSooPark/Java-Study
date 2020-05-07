@@ -35,7 +35,7 @@ public class Ticketing extends JPanel{
 		
 		mf.setTitle("경기 선택");
 		
-		Image icon = new ImageIcon("images/dusan_logo.png").getImage().getScaledInstance(300, 280, 100);
+		Image icon = new ImageIcon("images/dusan_logo.png").getImage().getScaledInstance(340, 270, 100);
 		JLabel image = new JLabel(new ImageIcon(icon));
 		image.setBounds(50, 10, 300, 280);
 		
@@ -63,7 +63,9 @@ public class Ticketing extends JPanel{
 			
 			@Override
 			public void valueChanged(ListSelectionEvent e) {
-				selected.setText((String)list.getSelectedValue());
+				String str = (String)list.getSelectedValue();
+				
+				selected.setText(str.substring(0,19)+str.substring(23,30));
 			}
 		});
 		

@@ -11,6 +11,7 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
+import controller.TicketingController;
 import model.TicketingInfo;
 
 public class PaymentPopup extends JPanel{
@@ -33,6 +34,8 @@ public class PaymentPopup extends JPanel{
 					e1.printStackTrace();
 				} finally {
 					pp.dispose();
+					TicketingController tc = new TicketingController();
+					tc.writeTicketing(ti);
 					replace(mf,tmp,ti);
 				}
 				
