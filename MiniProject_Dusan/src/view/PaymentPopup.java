@@ -2,10 +2,7 @@ package view;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.File;
-import java.io.IOException;
 
-import javax.imageio.ImageIO;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -34,8 +31,11 @@ public class PaymentPopup extends JPanel{
 					e1.printStackTrace();
 				} finally {
 					pp.dispose();
+					ti.setTicketingDate();
+					ti.setTicketingNo();
 					TicketingController tc = new TicketingController();
-					tc.writeTicketing(ti);
+					//tc.writeTicketing(ti);
+					tc.save(ti);
 					replace(mf,tmp,ti);
 				}
 				
@@ -64,3 +64,5 @@ public class PaymentPopup extends JPanel{
 		mf.revalidate();
 	}
 }
+
+

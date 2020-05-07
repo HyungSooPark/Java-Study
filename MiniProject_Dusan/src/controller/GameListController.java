@@ -1,12 +1,5 @@
 package controller;
 
-import java.io.EOFException;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -14,28 +7,28 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
-import model.Block;
 import model.Game;
 
-public class BlockController {
+public class GameListController {
 
 	public static void main(String[] args) {
-		BlockController bc = new BlockController();
-		//bc.save();
-		bc.load();
+		GameListController glc = new GameListController();
+		//glc.save();
+		glc.load();
 	}
-
+	
 	public void save() {
-		ArrayList<Block> arr = new ArrayList<Block>();
+		ArrayList<Game> arr = new ArrayList<Game>();
 		
-		arr.add(new Block("중앙테이블"));
-		for(int i=301;i<335;i++) {
-			arr.add(new Block(Integer.toString(i)+" 블록"));
-		}
-		for(int i=101;i<106;i++) {
-			arr.add(new Block(Integer.toString(i)+" 블록"));
-		}
-		arr.add(new Block("외야자유석"));
+		arr.add(new Game("2020/05/14 18:30","롯데 자이언츠"));
+		arr.add(new Game("2020/05/15 18:30","KIA 타이거즈"));
+		arr.add(new Game("2020/05/16 17:00","삼성 라이온즈"));
+		arr.add(new Game("2020/05/17 14:00","키움 히어로즈"));
+		arr.add(new Game("2020/05/19 18:30","NC 다이노스"));
+		arr.add(new Game("2020/05/20 18:30","LG 트윈스"));
+		arr.add(new Game("2020/05/21 18:30","SK 와이번스"));
+		arr.add(new Game("2020/05/22 18:30","KT 위즈"));
+		arr.add(new Game("2020/05/23 17:00","한화 이글스"));
 		
 		String driver = "oracle.jdbc.driver.OracleDriver";
 		String url = "jdbc:oracle:thin:@127.0.0.1:1521:xe";
@@ -58,13 +51,14 @@ public class BlockController {
 		
 		PreparedStatement pstm = null;
 		int res = 0;
-		String sql = " INSERT INTO BLOCK VALUES(?) ";
+		String sql = " INSERT INTO GAMELIST VALUES(?,?) ";
 		
 		try {
 			pstm = con.prepareStatement(sql);
 			
 			for(int i=0;i<arr.size();i++) {
-				pstm.setString(1, arr.get(i).getBlock());
+				pstm.setString(1, arr.get(i).getDate());
+				pstm.setString(2, arr.get(i).getAway());
 				res = pstm.executeUpdate();
 				
 				if(res>0)
@@ -109,7 +103,7 @@ public class BlockController {
 		PreparedStatement pstm = null;
 		ResultSet rs = null;
 		
-		String sql = " SELECT BLOCK FROM BLOCK ";
+		String sql = " SELECT GAMEDATE, AWAYTEAM FROM GAMELIST ";
 		
 		try {
 			
@@ -117,7 +111,7 @@ public class BlockController {
 			rs = pstm.executeQuery();
 			
 			while(rs.next()) {
-				System.out.println(rs.getString(1));				
+				System.out.println(rs.getString(1)+" 두산 베어스 VS " + rs.getString(2));				
 			}
 			
 		} catch (SQLException e) {
@@ -134,8 +128,8 @@ public class BlockController {
 	
 	}
 	
-	public String[] getBlockList() {
-		ArrayList<Block> arr = new ArrayList<Block>();
+	public String[] getGameList() {
+		ArrayList<Game> arr = new ArrayList<Game>();
 		
 		String driver = "oracle.jdbc.driver.OracleDriver";
 		String url = "jdbc:oracle:thin:@127.0.0.1:1521:xe";
@@ -160,19 +154,17 @@ public class BlockController {
 		PreparedStatement pstm = null;
 		ResultSet rs = null;
 		
-		String sql = " SELECT BLOCK FROM BLOCK ";
+		String sql = " SELECT GAMEDATE, AWAYTEAM FROM GAMELIST ";
 		
 		try {
-			
 			pstm = con.prepareStatement(sql);
 			rs = pstm.executeQuery();
 			
 			while(rs.next()) {
-				//System.out.println(rs.getString(1));
-				Block b = new Block(rs.getString(1));
-				arr.add(b);
+				//System.out.println(rs.getString(1)+" 두산 베어스 VS " + rs.getString(2));				
+				Game g = new Game(rs.getString(1),rs.getString(2));
+				arr.add(g);
 			}
-			
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
@@ -185,14 +177,15 @@ public class BlockController {
 			}
 		}
 		
-		Block[] block_list = (Block[]) arr.toArray(new Block[arr.size()]);
+		Game[] gamelist = (Game[]) arr.toArray(new Game[arr.size()]);
 		
-		String[] list = new String[block_list.length];
+		String[] list = new String[gamelist.length];
 		
 		for(int i=0;i<list.length;i++) {
-			list[i] = block_list[i].toString();
+			list[i] = gamelist[i].toString();
 		}
 		
 		return list;
 	}
+	
 }

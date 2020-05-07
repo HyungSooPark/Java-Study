@@ -1,15 +1,12 @@
 package view;
 
 import java.awt.Color;
-import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
-import java.io.FileWriter;
 import java.io.IOException;
-import java.util.ArrayList;
 
 import javax.imageio.ImageIO;
 import javax.swing.BorderFactory;
@@ -24,8 +21,7 @@ import javax.swing.JTextField;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
-import controller.PlayListController;
-import model.PlayList;
+import controller.GameListController;
 import model.TicketingInfo;
 
 public class Ticketing extends JPanel{
@@ -39,8 +35,8 @@ public class Ticketing extends JPanel{
 		JLabel image = new JLabel(new ImageIcon(icon));
 		image.setBounds(50, 10, 300, 280);
 		
-		PlayListController pc = new PlayListController();
-		String[] slist = pc.getPlayList();
+		GameListController glc = new GameListController();
+		String[] slist = glc.getGameList();
 		
 		JList list = new JList(slist);
 		list.setBorder(BorderFactory.createLineBorder(Color.black,1));

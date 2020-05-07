@@ -11,7 +11,6 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTable;
 
-import controller.TicketingController;
 import model.TicketingInfo;
 
 public class TicketingFinal extends JPanel {
@@ -69,7 +68,7 @@ public class TicketingFinal extends JPanel {
 		this.add(image3);
 		
 		//바코드 번호(예매번호 출력)
-		JLabel ticketno = new JLabel(ti.getTicketingNo());
+		JLabel ticketno = new JLabel(ti.getTicketingNoString());
 		ticketno.setFont(new Font("맑은 고딕", Font.BOLD, 13));
 		ticketno.setForeground(Color.black);
 		ticketno.setBounds(160, 330, 200, 20);

@@ -1,12 +1,12 @@
 package model;
 
-public class PlayList implements java.io.Serializable {
+public class Game {
 	private String date;
 	private String away;
 	
-	public PlayList() {}
+	public Game() {}
 	
-	public PlayList(String date, String away) {
+	public Game(String date, String away) {
 		this.date=date;
 		this.away=away;
 	}
@@ -14,11 +14,7 @@ public class PlayList implements java.io.Serializable {
 	public String getDate() {
 		return date;
 	}
-
-	public void setDate(String date) {
-		this.date = date;
-	}
-
+	
 	public String getAway() {
 		return away;
 	}
@@ -31,6 +27,4 @@ public class PlayList implements java.io.Serializable {
 	public String toString() {
 		return date + " 두산 베어스 VS "+away;
 	}
-	
-	
 }

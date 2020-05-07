@@ -1,14 +1,10 @@
 package controller;
 
-import java.io.EOFException;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
-import java.io.OutputStream;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 
 import model.TicketingInfo;
@@ -17,85 +13,181 @@ public class TicketingController {
 	
 	public static void main(String[] args) {
 		TicketingController tc = new TicketingController();
-		tc.readTicketing();
+//		tc.save();
+		tc.load();
 	}
 	
-	public void writeTicketing(TicketingInfo ti) {				
-		ArrayList<TicketingInfo> arr = new ArrayList<TicketingInfo>();
+	public int createKey() {
+		int key=0;
+		boolean b = false;
 		
-		arr.add(ti);
+		ArrayList<Integer> keyList = new ArrayList<Integer>();
 		
-		if(new File("ticketing_data.txt").exists()) {
-						
-			try(MyObjectOutputStream objOut = new MyObjectOutputStream(new FileOutputStream("ticketing_data.txt",true))){
-				for(int i=0;i<arr.size();i++) {
-					objOut.writeObject(arr.get(i));
-				}
-				objOut.reset();
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-		}
-		else {
-			try (ObjectOutputStream objOut =new ObjectOutputStream (new FileOutputStream("ticketing_data.txt",true))) {
-				for(int i=0;i<arr.size();i++) {
-					objOut.writeObject(arr.get(i));
-				}
-				objOut.reset();
-			} catch (FileNotFoundException e) {
-				e.printStackTrace();
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-		}
-
-	}
-	
-	public void readTicketing() {
-		ArrayList<TicketingInfo> arr = new ArrayList<TicketingInfo>();
+		String driver = "oracle.jdbc.driver.OracleDriver";
+		String url = "jdbc:oracle:thin:@127.0.0.1:1521:xe";
+		String user= "KH";
+		String password= "KH";
 		
-		ObjectInputStream objIn = null;
-		
+		Connection con = null;
 		
 		try {
-			objIn = new ObjectInputStream(new FileInputStream("ticketing_data.txt"));
-			
-			while(true) {
-				arr.add((TicketingInfo) objIn.readObject());
-			}
-		} catch (EOFException e) {
-			for(TicketingInfo t : arr) {
-				t.print();
-			}
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
+			Class.forName(driver);
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
 		}
-	
-		 
 		
-		
-	}
-	
-	class MyObjectOutputStream extends ObjectOutputStream {
-		public MyObjectOutputStream(OutputStream out) throws IOException {
-			super(out);
+		try {
+			con = DriverManager.getConnection(url,user, password);
+		} catch (SQLException e) {
+			e.printStackTrace();
 		}
-
-		@Override
-		protected void writeStreamHeader() throws IOException {
-			//헤더 처리 
-		}
-	}
-	
-	public static int createKey() {
-		int key=0;
 		
-	
+		//실행 부분
+		PreparedStatement pstm = null;
+		ResultSet rs = null;
+		
+		String sql = " SELECT TICKETNO FROM TICKETDATA ";
+		
+		try {
+			pstm = con.prepareStatement(sql);
+			rs = pstm.executeQuery();
+			
+			while(rs.next()) {
+				//System.out.println(rs.getInt(1));
+				keyList.add(rs.getInt(1));
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				rs.close();
+				pstm.close();
+				con.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		
+		while(b==false) {
+			key = (int) (Math.random()*(89999999)+10000000);
+			
+			if(keyList.contains(key)) b=false;
+			else b=true;
+		}
+		
+		System.out.println("키 생성 완료: "+key);
 		
 		return key;
 	}
+	
+	public void load() {
+		//db 연결 부분
+		String driver = "oracle.jdbc.driver.OracleDriver";
+		String url = "jdbc:oracle:thin:@127.0.0.1:1521:xe";
+		String user= "KH";
+		String password= "KH";
+		
+		Connection con = null;
+		
+		try {
+			Class.forName(driver);
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+		}
+		
+		try {
+			con = DriverManager.getConnection(url,user, password);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		//실행 부분
+		PreparedStatement pstm = null;
+		ResultSet rs = null;
+		
+		String sql = " SELECT TICKETNO, NAME, ID, PW, GAME, BLOCK, SEAT, PRICE, PAYTIME FROM TICKETDATA ";
+		
+		try {
+			
+			pstm = con.prepareStatement(sql);
+			rs = pstm.executeQuery();
+			
+			while(rs.next()) {
+				System.out.println(rs.getInt(1)+", " + rs.getString(2)+", " + rs.getString(3)+", " + rs.getString(4)
+				+", " + rs.getString(5)+", " + rs.getString(6)+", " + rs.getString(7)+", " + rs.getInt(8)+", " + rs.getString(9));
+				
+			}
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				rs.close();
+				pstm.close();
+				con.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+	
+	}
+	
+	
+	public void save(TicketingInfo ti) {
+		
+		String driver = "oracle.jdbc.driver.OracleDriver";
+		String url = "jdbc:oracle:thin:@127.0.0.1:1521:xe";
+		String user= "KH";
+		String password= "KH";
+		
+		Connection con = null;
+		
+		try {
+			Class.forName(driver);
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+		}
+		
+		try {
+			con = DriverManager.getConnection(url,user, password);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		PreparedStatement pstm = null;
+		int res = 0;
+		String sql = " INSERT INTO TICKETDATA VALUES(?,?,?,?,?,?,?,?,?) ";
+		
+		try {
+			pstm = con.prepareStatement(sql);
+			pstm.setInt(1, ti.getTicketingNo());
+			pstm.setString(2, ti.getName());
+			pstm.setString(3, ti.getID());
+			pstm.setString(4, ti.getPW());
+			pstm.setString(5, ti.getGame());
+			pstm.setString(6, ti.getBlock());
+			pstm.setString(7, ti.SeatToString());
+			pstm.setInt(8, ti.getTotalPrice());
+			pstm.setString(9, ti.getTicketingDate());
+			res = pstm.executeUpdate();
+			
+			if(res>0)
+				System.out.println("INSERT 성공");
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}finally {
+			try {
+				pstm.close();
+				con.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		
+	}
+	
+	
+	
+	
+	
 }

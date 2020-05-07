@@ -1,9 +1,7 @@
 package view;
 
 import java.awt.Color;
-import java.awt.Dimension;
 import java.awt.Font;
-import java.awt.GridLayout;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -11,22 +9,15 @@ import java.io.File;
 import java.io.IOException;
 
 import javax.imageio.ImageIO;
-import javax.swing.BorderFactory;
-import javax.swing.DefaultListModel;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-import javax.swing.JList;
 import javax.swing.JPanel;
-import javax.swing.JScrollPane;
 import javax.swing.JTextField;
-import javax.swing.event.ListSelectionEvent;
-import javax.swing.event.ListSelectionListener;
 
 import controller.BlockController;
-import controller.PriceController;
 import model.TicketingInfo;
 
 public class Ticketing3 extends JPanel {
@@ -96,9 +87,7 @@ public class Ticketing3 extends JPanel {
 		selected2.setBounds(95,435,230,20);
 		selected2.setForeground(Color.BLUE);
 		this.add(selected2);
-		
-		PriceController pc = new PriceController();
-		
+				
 		for(int i=0;i<9;i++) {
 			for(int j=0;j<7;j++) {
 				JButton button = new JButton(String.valueOf(j+1+(7*i)));
@@ -122,8 +111,9 @@ public class Ticketing3 extends JPanel {
 							System.out.print(ti.getSeatList()[i]+" ");
 						}
 						System.out.println();
+						ti.setTotalPrice();
 						selected.setText("\t           "+String.valueOf(ti.getSeatList().length)+" 석");
-						selected2.setText("\t         "+pc.getPrice(ti)+" 원");
+						selected2.setText("\t         "+ti.getTotalPrice()+" 원");
 					}
 				});
 			}

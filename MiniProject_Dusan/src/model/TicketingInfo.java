@@ -3,17 +3,11 @@ package model;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.HashSet;
 import java.util.LinkedHashSet;
-
 import controller.TicketingController;
 
-public class TicketingInfo implements java.io.Serializable{
+public class TicketingInfo {
 
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
 	private int TicketingNo;
 	private Date TicketingDate;
 	
@@ -23,6 +17,7 @@ public class TicketingInfo implements java.io.Serializable{
 	
 	private String game;
 	private String block;
+	
 	private LinkedHashSet<String> Seat = new LinkedHashSet<String>();
 	private int totalPrice;
 	
@@ -32,10 +27,16 @@ public class TicketingInfo implements java.io.Serializable{
 		this.ID = ID;
 		this.PW = PW;
 		this.name = name;
-		this.TicketingDate = new Date();
-		this.TicketingNo = (int) (Math.random()*1000000000);
 	}
 
+	public String getID() {
+		return ID;
+	}
+	
+	public String getPW() {
+		return PW;
+	}
+	
 	public String getName() {
 		return name;
 	}
@@ -112,8 +113,28 @@ public class TicketingInfo implements java.io.Serializable{
 		return totalPrice;
 	}
 
-	public void setTotalPrice(int totalPrice) {
-		this.totalPrice = totalPrice;
+	public void setTotalPrice() {
+		int price=0;
+		
+		String[] str = this.getSeatList();
+			
+		int[] seatno = new int[str.length];
+		
+		for(int i=0;i<seatno.length;i++) {
+			seatno[i] = Integer.parseInt(str[i]);
+			
+			if(seatno[i]<15) {
+				price+=23000;
+			}
+			else if(seatno[i]>49) {
+				price+=18000;
+			}
+			else {
+				price+=21000;
+			}
+		}
+		
+		this.totalPrice = price;
 	}
 	
 	public String getTicketingDate() {
@@ -122,8 +143,21 @@ public class TicketingInfo implements java.io.Serializable{
 		return sdf.format(TicketingDate);
 	}
 	
-	public String getTicketingNo() {
+	public void setTicketingDate() {
+		this.TicketingDate = new Date();
+	}
+	
+	public int getTicketingNo() {
+		return TicketingNo;
+	}
+	
+	public String getTicketingNoString() {
 		return String.valueOf(TicketingNo);
+	}
+	
+	public void setTicketingNo() {
+		TicketingController tc = new TicketingController();
+		this.TicketingNo = tc.createKey();
 	}
 	
 	public void print() {

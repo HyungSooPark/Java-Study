@@ -1,6 +1,6 @@
 package model;
 
-public class Block implements java.io.Serializable {
+public class Block {
 	private String block;
 	
 	public Block() {}
