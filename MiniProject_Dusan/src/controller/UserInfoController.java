@@ -7,25 +7,18 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
-import model.TicketingInfo;
+import model.Block;
+import model.UserInfo;
 
-public class TicketingController {
-	
+public class UserInfoController {
 	public static void main(String[] args) {
-		TicketingController tc = new TicketingController();
-//		tc.save();
-//		tc.load();
-		ArrayList<TicketingInfo> arr = tc.getTicketingInfo("zxc");
-		System.out.println(arr.size());
-		for(TicketingInfo t : arr) {
-			t.print();
-		}
+		UserInfoController uic = new UserInfoController();
+		//uic.save();
+		//uic.load();
+		//uic.select();
 	}
-	
-	public int createKey() {
-		int key=0;
-		
-		ArrayList<Integer> keyList = new ArrayList<Integer>();
+
+	public void save(UserInfo u) {
 		
 		String driver = "oracle.jdbc.driver.OracleDriver";
 		String url = "jdbc:oracle:thin:@127.0.0.1:1521:xe";
@@ -46,24 +39,26 @@ public class TicketingController {
 			e.printStackTrace();
 		}
 		
-		//실행 부분
 		PreparedStatement pstm = null;
-		ResultSet rs = null;
-		
-		String sql = " SELECT TICKETNO FROM TICKETDATA ";
+		int res = 0;
+		String sql = " INSERT INTO USERINFO VALUES(?,?,?,?) ";
 		
 		try {
 			pstm = con.prepareStatement(sql);
-			rs = pstm.executeQuery();
 			
-			while(rs.next()) {
-				keyList.add(rs.getInt(1));
-			}
+			pstm.setString(1, u.getName());
+			pstm.setString(2, u.getId());
+			pstm.setString(3, u.getPw());
+			pstm.setString(4, u.getPhone());
+			res = pstm.executeUpdate();
+			
+			if(res>0)
+				System.out.println("회원정보 DB 저장 성공");
+			
 		} catch (SQLException e) {
 			e.printStackTrace();
-		} finally {
+		}finally {
 			try {
-				rs.close();
 				pstm.close();
 				con.close();
 			} catch (SQLException e) {
@@ -71,15 +66,6 @@ public class TicketingController {
 			}
 		}
 		
-		while(true) {
-			key = (int)(Math.random()*89999999)+10000000;
-			
-			if(!keyList.contains(key)) break;
-		}
-		
-		System.out.println("키 생성 완료: "+key);
-		
-		return key;
 	}
 	
 	public void load() {
@@ -107,7 +93,7 @@ public class TicketingController {
 		PreparedStatement pstm = null;
 		ResultSet rs = null;
 		
-		String sql = " SELECT TICKETNO, NAME, ID, PW, GAME, BLOCK, SEAT, PRICE, PAYTIME FROM TICKETDATA ";
+		String sql = " SELECT NAME, ID, PW, PHONE FROM USERINFO ";
 		
 		try {
 			
@@ -115,9 +101,7 @@ public class TicketingController {
 			rs = pstm.executeQuery();
 			
 			while(rs.next()) {
-				System.out.println(rs.getInt(1)+", " + rs.getString(2)+", " + rs.getString(3)+", " + rs.getString(4)
-				+", " + rs.getString(5)+", " + rs.getString(6)+", " + rs.getString(7)+", " + rs.getInt(8)+", " + rs.getString(9));
-				
+				System.out.println(rs.getString(1)+" : ["+rs.getString(2)+"/"+rs.getString(3)+"/"+rs.getString(4)+"]");				
 			}
 			
 		} catch (SQLException e) {
@@ -134,9 +118,8 @@ public class TicketingController {
 	
 	}
 	
-	
-	public void save(TicketingInfo ti) {
-		
+	public void select() {
+		//db 연결 부분
 		String driver = "oracle.jdbc.driver.OracleDriver";
 		String url = "jdbc:oracle:thin:@127.0.0.1:1521:xe";
 		String user= "KH";
@@ -156,40 +139,42 @@ public class TicketingController {
 			e.printStackTrace();
 		}
 		
+		//실행 부분
 		PreparedStatement pstm = null;
-		int res = 0;
-		String sql = " INSERT INTO TICKETDATA VALUES(?,?,?,?,?,?,?,?,?) ";
+		ResultSet rs = null;
+		
+		String sql = " DELETE FROM USERINFO WHER ID=? ";
 		
 		try {
-			pstm = con.prepareStatement(sql);
-			pstm.setInt(1, ti.getTicketingNo());
-			pstm.setString(2, ti.getName());
-			pstm.setString(3, ti.getID());
-			pstm.setString(4, ti.getPW());
-			pstm.setString(5, ti.getGame());
-			pstm.setString(6, ti.getBlock());
-			pstm.setString(7, ti.SeatToString());
-			pstm.setInt(8, ti.getTotalPrice());
-			pstm.setString(9, ti.getTicketingDate());
-			res = pstm.executeUpdate();
 			
-			if(res>0)
-				System.out.println("INSERT 성공");
+			pstm = con.prepareStatement(sql);
+			
+			pstm.setString(1, "zxc");
+			
+			rs = pstm.executeQuery();
+			
+			while(rs.next()) {
+				//System.out.println(rs.getString(1)+" : ["+rs.getString(2)+"/"+rs.getString(3)+"/"+rs.getString(4)+"]");
+				System.out.println(rs.getString(1)+"");
+			}
+			
 		} catch (SQLException e) {
 			e.printStackTrace();
-		}finally {
+		} finally {
 			try {
+				//rs.close();
 				pstm.close();
 				con.close();
 			} catch (SQLException e) {
 				e.printStackTrace();
 			}
 		}
-		
+	
 	}
-
-	public ArrayList<TicketingInfo> getTicketingInfo(String id){
-		ArrayList<TicketingInfo> arr = new ArrayList<TicketingInfo>();
+	
+	public ArrayList<UserInfo> getUserInfoList() {
+		ArrayList<UserInfo> arr = new ArrayList<UserInfo>();
+		//ArrayList<String> idpwlist = new ArrayList<String>();
 		
 		String driver = "oracle.jdbc.driver.OracleDriver";
 		String url = "jdbc:oracle:thin:@127.0.0.1:1521:xe";
@@ -214,7 +199,7 @@ public class TicketingController {
 		PreparedStatement pstm = null;
 		ResultSet rs = null;
 		
-		String sql = " SELECT TICKETNO, NAME, ID, PW, GAME, BLOCK, SEAT, PRICE, PAYTIME FROM TICKETDATA ";
+		String sql = " SELECT NAME, ID, PW, PHONE FROM USERINFO ";
 		
 		try {
 			
@@ -222,23 +207,10 @@ public class TicketingController {
 			rs = pstm.executeQuery();
 			
 			while(rs.next()) {
-				
-				if(id.equals(rs.getString(3))) {
-					TicketingInfo t = new TicketingInfo(rs.getString(3),rs.getString(4),rs.getString(2));
-					t.setGame(rs.getString(5));
-					t.setTicketingNo(rs.getInt(1));
-					t.setBlock(rs.getString(6));
-					t.setTicketingDate2(rs.getString(9));
-					
-					String[] sarr = rs.getString(7).split(", ");
-					for(String s : sarr) {
-						t.setSeat(s);
-					}
-					t.setTotalPrice();
-					
-					arr.add(t);
-				}
-				
+				//System.out.println(rs.getString(1));
+				UserInfo u = new UserInfo(rs.getString(1),rs.getString(2),rs.getString(3),rs.getString(4));
+				arr.add(u);
+				//idpwlist.add(rs.getString(2)+"/"+rs.getString(3));
 			}
 			
 		} catch (SQLException e) {
@@ -253,8 +225,15 @@ public class TicketingController {
 			}
 		}
 		
+		/*UserInfo[] UserInfo_list = (UserInfo[]) arr.toArray(new UserInfo[arr.size()]);
+		
+		String[] list = new String[UserInfo_list.length];
+		
+		for(int i=0;i<list.length;i++) {
+			list[i] = UserInfo_list[i].getIDPW();
+		}*/
+		
+		
 		return arr;
 	}
-	
-	
 }

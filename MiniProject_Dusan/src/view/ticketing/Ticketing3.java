@@ -1,4 +1,4 @@
-package view;
+package view.ticketing;
 
 import java.awt.Color;
 import java.awt.Font;
@@ -19,23 +19,35 @@ import javax.swing.JTextField;
 
 import controller.BlockController;
 import model.TicketingInfo;
+import model.UserInfo;
 
 public class Ticketing3 extends JPanel {
 	String[] chair = null;
 	
-	public Ticketing3(JFrame mf,TicketingInfo ti) {
+	public Ticketing3(JFrame mf,TicketingInfo ti,UserInfo ui) {
 		this.setSize(400,600);
 		this.setLayout(null);
 		
 		mf.setTitle("좌석 선택");
 		
+		JButton back = new JButton("←");
+		back.setBounds(10, 10, 50, 30);
+		this.add(back);
+		back.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				back(mf,ti,ui);
+			}
+		});
+		
 		BlockController bc = new BlockController();
 		String[] area = bc.getBlockList();
 		JComboBox box = new JComboBox(area);
 		box.setSelectedItem(ti.getBlock());
-		box.setFont(new Font("맑은 고딕", Font.BOLD, 20));
-		box.setBounds(10, 10, 200, 50);
+		box.setFont(new Font("맑은 고딕", Font.BOLD, 18));
+		box.setBounds(77, 10, 156, 50);
 		box.setBackground(Color.WHITE);
+		
 		this.add(box);
 		
 		box.addActionListener(new ActionListener() {
@@ -133,7 +145,7 @@ public class Ticketing3 extends JPanel {
 		button.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				Popup(mf,tmp,ti);
+				Popup(mf,tmp,ti,ui);
 			}
 		});
 		this.add(button);
@@ -143,7 +155,15 @@ public class Ticketing3 extends JPanel {
 		
 	}
 	
-	public void Popup(JFrame mf, JPanel tmp, TicketingInfo ti) {
+	public void back(JFrame mf,TicketingInfo ti,UserInfo ui) {
+		mf.remove(this);
+		ti.clearSeat();
+		new Ticketing2(mf,ti,ui);
+		mf.revalidate();
+		mf.repaint();
+	}
+	
+	public void Popup(JFrame mf, JPanel tmp, TicketingInfo ti,UserInfo ui) {
 		JFrame pp = new JFrame();
 		
 		pp.setSize(250,180);
@@ -157,7 +177,7 @@ public class Ticketing3 extends JPanel {
 			e.printStackTrace();
 		}
 		
-		if(ti.getSeatList().length>0) new PaymentPopup(mf,tmp,pp,ti);
+		if(ti.getSeatList().length>0) new PaymentPopup(mf,tmp,pp,ti,ui);
 		else new ErrorPopup(pp,"좌석이");
 		
 		pp.setResizable(false);

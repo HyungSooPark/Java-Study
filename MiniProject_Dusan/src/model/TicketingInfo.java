@@ -28,7 +28,7 @@ public class TicketingInfo {
 		this.PW = PW;
 		this.name = name;
 	}
-
+	
 	public String getID() {
 		return ID;
 	}
@@ -76,10 +76,13 @@ public class TicketingInfo {
 		this.block = block;
 	}
 
+	public void clearSeat() {
+		this.Seat.clear();
+	}
+	
 	public void setSeat(String Seat) {
 		this.Seat.add(Seat);
 	}
-	
 	
 	public String[] getSeatList() {
 		String[] list = new String[Seat.size()];
@@ -92,7 +95,7 @@ public class TicketingInfo {
 		
 		return list;
 	}
-	
+		
 	public String SeatToString() {
 		String[] list = new String[Seat.size()];
 		
@@ -147,6 +150,16 @@ public class TicketingInfo {
 		this.TicketingDate = new Date();
 	}
 	
+	public void setTicketingDate2(String Date) {
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy년 MM월 dd일 (E) HH시 mm분");
+		
+		try {
+			this.TicketingDate = sdf.parse(Date);
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+	}
+	
 	public int getTicketingNo() {
 		return TicketingNo;
 	}
@@ -155,9 +168,13 @@ public class TicketingInfo {
 		return String.valueOf(TicketingNo);
 	}
 	
-	public void setTicketingNo() {
+	public void createTicketingNo() {
 		TicketingController tc = new TicketingController();
 		this.TicketingNo = tc.createKey();
+	}
+	
+	public void setTicketingNo(int TicketingNo) {
+		this.TicketingNo = TicketingNo;
 	}
 	
 	public void print() {
@@ -168,4 +185,11 @@ public class TicketingInfo {
 		System.out.println(totalPrice);
 		System.out.println();
 	}
+
+	@Override
+	public String toString() {
+		return "[예약번호: " + TicketingNo + "] " + this.getGameDate().substring(0,8) + " 두산 VS "+this.getAwayTeam().substring(0,3);
+	}
+	
+	
 }

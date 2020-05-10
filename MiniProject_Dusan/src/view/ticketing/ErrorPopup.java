@@ -1,5 +1,6 @@
-package view;
+package view.ticketing;
 
+import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
@@ -24,9 +25,12 @@ public class ErrorPopup extends JPanel {
 		}
 		
 		JLabel label = new JLabel(s+" 선택되지 않았습니다.");
-		label.setBounds(40, 40, 200, 30);
+		label.setFont(new Font("맑은 고딕",Font.BOLD,14));
+		label.setHorizontalAlignment(JLabel.CENTER);
+		label.setBounds(0, 35, 250, 30);
 		
 		JButton button = new JButton("확인");
+		button.setFont(new Font("맑은 고딕",Font.BOLD,14));
 		button.setBounds(30, 90, 190, 30);
 		button.addActionListener(new ActionListener() {
 			@Override
