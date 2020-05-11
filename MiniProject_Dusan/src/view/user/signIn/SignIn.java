@@ -8,6 +8,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 
 import javax.imageio.ImageIO;
 import javax.swing.BorderFactory;
@@ -114,27 +115,36 @@ public class SignIn extends JPanel{
 		save.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				if(nameInput.getText().equals("")||idInput.getText().equals("")||phoneInput.getText().equals("")
-						|pwInput.getText().equals("")||checkInput.getText().equals("")) {
-					ErrorPopup(1);
+				UserInfoController uic = new UserInfoController();
+				ArrayList<String> IDList = uic.getIDList();
+				
+				if(IDList.contains(idInput.getText())) {
+					ErrorPopup(3);
+					idInput.setText(null);
 				}
 				else {
-					if(pwInput.getText().equals(checkInput.getText())) {
-						UserInfo u = new UserInfo();
-						u.setId(idInput.getText());
-						u.setName(nameInput.getText());
-						u.setPw(pwInput.getText());
-						u.setPhone(phoneInput.getText());
-						UserInfoController uic = new UserInfoController();
-						uic.save(u);
-						SuccessPopup(mf,tmp);
+					if(nameInput.getText().equals("")||idInput.getText().equals("")||phoneInput.getText().equals("")
+							|pwInput.getText().equals("")||checkInput.getText().equals("")) {
+						ErrorPopup(1);
 					}
-					else{
-						ErrorPopup(2);
-						pwInput.setText(null);
-						checkInput.setText(null);
+					else {
+						if(pwInput.getText().equals(checkInput.getText())) {
+							UserInfo u = new UserInfo();
+							u.setId(idInput.getText());
+							u.setName(nameInput.getText());
+							u.setPw(pwInput.getText());
+							u.setPhone(phoneInput.getText());
+							uic.save(u);
+							SuccessPopup(mf,tmp);
+						}
+						else{
+							ErrorPopup(2);
+							pwInput.setText(null);
+							checkInput.setText(null);
+						}
 					}
 				}
+				
 			}
 		});
 		
@@ -177,6 +187,9 @@ public class SignIn extends JPanel{
 		else if(i==2) {
 			new PasswordError(ep);
 		}
+		else if(i==3) {
+			new IDError(ep);
+		}
 		
 		ep.setResizable(false);
 		ep.setVisible(true);
@@ -203,4 +216,5 @@ public class SignIn extends JPanel{
 		
 		sp.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	}
+	
 }

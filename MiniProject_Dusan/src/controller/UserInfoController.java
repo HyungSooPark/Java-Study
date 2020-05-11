@@ -7,7 +7,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
-import model.Block;
 import model.UserInfo;
 
 public class UserInfoController {
@@ -278,5 +277,56 @@ public class UserInfoController {
 		
 		
 		return arr;
+	}
+	
+	public ArrayList<String> getIDList(){
+		
+		ArrayList<String> IDList = new ArrayList<String>();
+		
+		String driver = "oracle.jdbc.driver.OracleDriver";
+		String url = "jdbc:oracle:thin:@127.0.0.1:1521:xe";
+		String user= "KH";
+		String password= "KH";
+		
+		Connection con = null;
+		
+		try {
+			Class.forName(driver);
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+		}
+		
+		try {
+			con = DriverManager.getConnection(url,user, password);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		//실행 부분
+		PreparedStatement pstm = null;
+		ResultSet rs = null;
+		
+		String sql = " SELECT ID FROM USERINFO ";
+		
+		try {
+			pstm = con.prepareStatement(sql);
+			rs = pstm.executeQuery();
+			
+			while(rs.next()) {
+				IDList.add(rs.getString(1));
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				rs.close();
+				pstm.close();
+				con.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		
+		return IDList;
 	}
 }
