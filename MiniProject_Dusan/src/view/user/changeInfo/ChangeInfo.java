@@ -1,4 +1,4 @@
-package view.signin;
+package view.user.changeInfo;
 
 import java.awt.Color;
 import java.awt.Font;
@@ -22,7 +22,10 @@ import javax.swing.JTextField;
 import controller.UserInfoController;
 import model.UserInfo;
 import view.MainViewPanel;
-import view.SelectMenu;
+import view.select.SelectMenu;
+import view.user.deleteUser.DeleteInfo;
+import view.user.signIn.NullError;
+import view.user.signIn.PasswordError;
 
 public class ChangeInfo extends JPanel{
 	public ChangeInfo(JFrame mf,UserInfo ui) {
@@ -97,6 +100,7 @@ public class ChangeInfo extends JPanel{
 		this.add(phone);
 		
 		JTextField phoneInput = new JTextField();
+		phoneInput.setText(ui.getPhone());
 		phoneInput.setFont(new Font("맑은 고딕", Font.BOLD, 18));
 		phoneInput.setBounds(112,335,260,30);
 		phoneInput.setHorizontalAlignment(JTextField.CENTER);
@@ -129,8 +133,8 @@ public class ChangeInfo extends JPanel{
 						u.setPw(pwInput.getText());
 						u.setPhone(phoneInput.getText());
 						UserInfoController uic = new UserInfoController();
-						//uic.save(u);
-						SuccessPopup(mf,tmp);
+						uic.change(u);
+						SuccessPopup(mf,tmp,u);
 					}
 					else{
 						ErrorPopup(2);
@@ -150,6 +154,17 @@ public class ChangeInfo extends JPanel{
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				replace(mf,ui);
+			}
+		});
+		
+		JButton deleteInfo = new JButton("회원탈퇴");
+		deleteInfo.setFont(new Font("맑은 고딕", Font.BOLD, 15));
+		deleteInfo.setBounds(280,10,100,30);
+		this.add(deleteInfo);
+		deleteInfo.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				DeletePopup(mf,tmp,ui);
 			}
 		});
 		
@@ -187,7 +202,7 @@ public class ChangeInfo extends JPanel{
 		ep.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	}
 	
-	public void SuccessPopup(JFrame mf,JPanel tmp) {
+	public void SuccessPopup(JFrame mf,JPanel tmp,UserInfo ui) {
 		JFrame sp = new JFrame();
 		
 		sp.setSize(250,180);
@@ -199,11 +214,31 @@ public class ChangeInfo extends JPanel{
 			e.printStackTrace();
 		}
 		
-		new SuccessPanel(mf,tmp,sp);
+		new ChangeSuccess(mf,tmp,sp,ui);
 		
 		sp.setResizable(false);
 		sp.setVisible(true);
 		
 		sp.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+	}
+	
+	public void DeletePopup(JFrame mf,JPanel tmp,UserInfo ui) {
+		JFrame dp = new JFrame();
+		
+		dp.setSize(250,180);
+		dp.setLocationRelativeTo(null);
+				
+		try {
+			dp.setIconImage(ImageIO.read(new File("images/delete.png")));
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
+		new DeleteInfo(mf,tmp,dp,ui);
+		
+		dp.setResizable(false);
+		dp.setVisible(true);
+		
+		dp.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	}
 }

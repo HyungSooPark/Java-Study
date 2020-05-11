@@ -15,11 +15,6 @@ public class TicketingController {
 		TicketingController tc = new TicketingController();
 //		tc.save();
 //		tc.load();
-		ArrayList<TicketingInfo> arr = tc.getTicketingInfo("zxc");
-		System.out.println(arr.size());
-		for(TicketingInfo t : arr) {
-			t.print();
-		}
 	}
 	
 	public int createKey() {
@@ -186,6 +181,61 @@ public class TicketingController {
 			}
 		}
 		
+	}
+	
+	public void delete(TicketingInfo ti) {
+		//db 연결 부분
+				String driver = "oracle.jdbc.driver.OracleDriver";
+				String url = "jdbc:oracle:thin:@127.0.0.1:1521:xe";
+				String user= "KH";
+				String password= "KH";
+				
+				Connection con = null;
+				
+				try {
+					Class.forName(driver);
+				} catch (ClassNotFoundException e) {
+					e.printStackTrace();
+				}
+				
+				try {
+					con = DriverManager.getConnection(url,user, password);
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+				
+				//실행 부분
+				PreparedStatement pstm = null;
+				int res = 0;
+				
+				String sql = " DELETE FROM TICKETDATA WHERE TICKETNO=? ";
+				
+				try {
+					
+					pstm = con.prepareStatement(sql);
+					pstm.setInt(1,ti.getTicketingNo());
+
+					res = pstm.executeUpdate();
+					
+					if(res>0) {
+						con.commit();
+						System.out.println("삭제 완료");
+					}
+					
+					/*while(rs.next()) {
+						System.out.println(rs.getString(1)+" : ["+rs.getString(2)+"/"+rs.getString(3)+"/"+rs.getString(4)+"]");				
+					}*/
+					
+				} catch (SQLException e) {
+					e.printStackTrace();
+				} finally {
+					try {
+						pstm.close();
+						con.close();
+					} catch (SQLException e) {
+						e.printStackTrace();
+					}
+				}
 	}
 
 	public ArrayList<TicketingInfo> getTicketingInfo(String id){

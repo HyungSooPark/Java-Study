@@ -22,7 +22,7 @@ import javax.swing.table.TableColumnModel;
 
 import controller.Pay;
 import model.UserInfo;
-import view.SelectMenu;
+import view.select.SelectMenu;
 
 public class PayView extends JPanel{
 	private JFrame mf;
@@ -46,7 +46,7 @@ public class PayView extends JPanel{
 		imgLabel = new JLabel(new ImageIcon("images/complete.PNG"));
 		panel = new JPanel();
 		btn1 = new JButton("뒤로가기");
-		btn2 = new JButton("결재하기");
+		btn2 = new JButton("결제하기");
 		totalLabel = new JLabel("총 주문금액 : " + tPrice + "원");
 		model = new DefaultTableModel();
 		model.addColumn("메뉴");
@@ -123,10 +123,10 @@ public class PayView extends JPanel{
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				int res = 1;
-				res = JOptionPane.showConfirmDialog(null, "결재하시겠습니까?", "결재확인", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE);
+				res = JOptionPane.showConfirmDialog(null, "결제하시겠습니까?", "결제확인", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE);
 				if( res==0 ) {
 					new Pay().payment(calculate);
-					JOptionPane.showMessageDialog(null, imgLabel, "결재확인", JOptionPane.PLAIN_MESSAGE, null);
+					JOptionPane.showMessageDialog(null, imgLabel, "결제확인", JOptionPane.PLAIN_MESSAGE, null);
 					selectService(ui);
 				}
 			}

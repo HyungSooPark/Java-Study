@@ -22,11 +22,11 @@ import javax.swing.JTextField;
 import model.TicketingInfo;
 import model.UserInfo;
 import oracle.net.jdbc.TNSAddress.Address;
-import view.signin.SignIn;
 import view.ticketing.Ticketing;
 import view.ticketing.Ticketing2;
 import view.ticketing.Ticketing3;
 import view.ticketing.TicketingFinal;
+import view.user.signIn.SignIn;
 
 public class MainFrame extends JFrame{
 	
@@ -44,13 +44,7 @@ public class MainFrame extends JFrame{
 			e.printStackTrace();
 		}
 		
-		/*TicketingInfo ti = new TicketingInfo("ID","PW","박형수");
-		ti.setGame("2020/05/14 18:30 두산 VS 롯데 자이언츠");
-		ti.setTicketingDate();
-		new Ticketing3(this,ti,new UserInfo());*/
-		//this.add(new mainView());
 		new MainViewPanel(this);
-		//new SelectMenu(this,new UserInfo());
 		
 		this.setResizable(false);
 		this.setVisible(true);

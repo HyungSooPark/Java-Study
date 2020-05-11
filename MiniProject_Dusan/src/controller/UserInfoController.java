@@ -15,7 +15,8 @@ public class UserInfoController {
 		UserInfoController uic = new UserInfoController();
 		//uic.save();
 		//uic.load();
-		//uic.select();
+		//uic.delete();
+		//uic.change();
 	}
 
 	public void save(UserInfo u) {
@@ -118,7 +119,7 @@ public class UserInfoController {
 	
 	}
 	
-	public void select() {
+	public void delete(UserInfo ui) {
 		//db 연결 부분
 		String driver = "oracle.jdbc.driver.OracleDriver";
 		String url = "jdbc:oracle:thin:@127.0.0.1:1521:xe";
@@ -141,28 +142,26 @@ public class UserInfoController {
 		
 		//실행 부분
 		PreparedStatement pstm = null;
-		ResultSet rs = null;
+		int res = 0;
 		
-		String sql = " DELETE FROM USERINFO WHER ID=? ";
+		String sql = " DELETE FROM USERINFO WHERE ID=? ";
 		
 		try {
 			
 			pstm = con.prepareStatement(sql);
+			pstm.setString(1, ui.getId());
+
+			res = pstm.executeUpdate();
 			
-			pstm.setString(1, "zxc");
-			
-			rs = pstm.executeQuery();
-			
-			while(rs.next()) {
-				//System.out.println(rs.getString(1)+" : ["+rs.getString(2)+"/"+rs.getString(3)+"/"+rs.getString(4)+"]");
-				System.out.println(rs.getString(1)+"");
+			if(res>0) {
+				con.commit();
+				System.out.println("삭제 완료");
 			}
 			
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
 			try {
-				//rs.close();
 				pstm.close();
 				con.close();
 			} catch (SQLException e) {
@@ -172,9 +171,63 @@ public class UserInfoController {
 	
 	}
 	
+	public void change(UserInfo u) {
+		//db 연결 부분
+		String driver = "oracle.jdbc.driver.OracleDriver";
+		String url = "jdbc:oracle:thin:@127.0.0.1:1521:xe";
+		String user= "KH";
+		String password= "KH";
+		
+		Connection con = null;
+		
+		try {
+			Class.forName(driver);
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+		}
+		
+		try {
+			con = DriverManager.getConnection(url,user, password);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		//실행 부분
+		PreparedStatement pstm = null;
+		int res = 0;
+		
+		String sql = " UPDATE USERINFO SET PW=?, PHONE=? WHERE ID=? ";
+		
+		try {
+			
+			pstm = con.prepareStatement(sql);
+			pstm.setString(3, u.getId());
+			pstm.setString(1, u.getPw());
+			pstm.setString(2, u.getPhone());
+			
+			res = pstm.executeUpdate();
+			
+			if(res>0) {
+				con.commit();
+				System.out.println("수정 완료");
+			}
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				pstm.close();
+				con.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+	
+	}
+	
+	
 	public ArrayList<UserInfo> getUserInfoList() {
 		ArrayList<UserInfo> arr = new ArrayList<UserInfo>();
-		//ArrayList<String> idpwlist = new ArrayList<String>();
 		
 		String driver = "oracle.jdbc.driver.OracleDriver";
 		String url = "jdbc:oracle:thin:@127.0.0.1:1521:xe";
@@ -207,10 +260,8 @@ public class UserInfoController {
 			rs = pstm.executeQuery();
 			
 			while(rs.next()) {
-				//System.out.println(rs.getString(1));
 				UserInfo u = new UserInfo(rs.getString(1),rs.getString(2),rs.getString(3),rs.getString(4));
 				arr.add(u);
-				//idpwlist.add(rs.getString(2)+"/"+rs.getString(3));
 			}
 			
 		} catch (SQLException e) {
@@ -224,14 +275,6 @@ public class UserInfoController {
 				e.printStackTrace();
 			}
 		}
-		
-		/*UserInfo[] UserInfo_list = (UserInfo[]) arr.toArray(new UserInfo[arr.size()]);
-		
-		String[] list = new String[UserInfo_list.length];
-		
-		for(int i=0;i<list.length;i++) {
-			list[i] = UserInfo_list[i].getIDPW();
-		}*/
 		
 		
 		return arr;

@@ -28,7 +28,7 @@ import javax.swing.table.TableColumnModel;
 
 import controller.Delivery;
 import model.UserInfo;
-import view.SelectMenu;
+import view.select.SelectMenu;
 
 public class DeliveryView extends JPanel{
 	private ArrayList<String> sMenu = new ArrayList<String>();					//메뉴 종류

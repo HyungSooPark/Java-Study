@@ -1,4 +1,4 @@
-package view.signin;
+package view.user.changeInfo;
 
 import java.awt.Font;
 import java.awt.event.ActionEvent;
@@ -9,16 +9,20 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-public class PasswordError extends JPanel{
-	public PasswordError(JFrame ep) {
+import model.UserInfo;
+import view.MainViewPanel;
+import view.select.SelectMenu;
+
+public class ChangeSuccess extends JPanel{
+	public ChangeSuccess(JFrame mf, JPanel tmp,JFrame sp,UserInfo ui) {
 		this.setSize(250,180);
 		this.setLayout(null);
-		ep.setTitle("가입 실패");
+		sp.setTitle("수정 성공");
 		
-		JLabel label = new JLabel("비밀번호가 일치하지 않습니다.");
+		JLabel label = new JLabel("회원정보가 수정되었습니다.");
 		label.setFont(new Font("맑은 고딕",Font.BOLD,14));
 		label.setHorizontalAlignment(JLabel.CENTER);
-		label.setBounds(0, 35, 250, 30);
+		label.setBounds(0, 40, 250, 30);
 		
 		JButton button = new JButton("확인");
 		button.setFont(new Font("맑은 고딕",Font.BOLD,14));
@@ -26,13 +30,20 @@ public class PasswordError extends JPanel{
 		button.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				ep.dispose();	
+				sp.dispose();	
+				replace(mf,tmp,ui);
 			}
 		});
 		
 		this.add(label);
 		this.add(button);
 		
-		ep.add(this);
+		sp.add(this);
+	}
+	
+	public void replace(JFrame mf,JPanel tmp,UserInfo ui) {
+		mf.remove(tmp);
+		new SelectMenu(mf,ui);
+		mf.revalidate();
 	}
 }

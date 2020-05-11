@@ -1,4 +1,4 @@
-package view;
+package view.select;
 
 import java.awt.Color;
 import java.awt.Font;
@@ -27,12 +27,12 @@ import controller.TicketingController;
 import model.TicketingInfo;
 import model.UserInfo;
 import view.delivery.DeliveryView;
-import view.signin.ChangeInfo;
-import view.signin.LoginSuccess;
-import view.signin.LogoutCheck;
 import view.ticketing.ErrorPopup;
 import view.ticketing.Ticketing;
 import view.ticketing.TicketingFinal;
+import view.user.changeInfo.ChangeInfo;
+import view.user.logIn_logOut.LoginSuccess;
+import view.user.logIn_logOut.LogoutCheck;
 
 public class SelectMenu extends JPanel {
 	public SelectMenu(JFrame mf,UserInfo ui) {

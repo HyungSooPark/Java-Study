@@ -24,7 +24,7 @@ import javax.swing.event.ListSelectionListener;
 import controller.BlockController;
 import model.TicketingInfo;
 import model.UserInfo;
-import view.SelectMenu;
+import view.select.SelectMenu;
 
 public class Ticketing2 extends JPanel{
 	public Ticketing2(JFrame mf,TicketingInfo ti,UserInfo ui) {

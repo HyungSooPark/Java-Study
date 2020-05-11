@@ -2,6 +2,7 @@ package model;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.LinkedHashSet;
 import controller.TicketingController;
@@ -97,16 +98,22 @@ public class TicketingInfo {
 	}
 		
 	public String SeatToString() {
-		String[] list = new String[Seat.size()];
 		
 		Object[] arr = Seat.toArray();
 		
+		int[] intarr = new int[arr.length];
+		for(int i=0;i<intarr.length;i++) {
+			intarr[i] = Integer.parseInt(arr[i].toString());
+		}
+		
+		Arrays.sort(intarr);
+		
 		StringBuilder stb = new StringBuilder();
 		
-		for(int i=0;i<list.length;i++) {
-			stb.append(arr[i].toString());
+		for(int i=0;i<intarr.length;i++) {
+			stb.append(String.valueOf(intarr[i]));
 			
-			if(i<list.length-1) stb.append(", ");
+			if(i<intarr.length-1) stb.append(", ");
 		}
 		
 		return stb.toString();

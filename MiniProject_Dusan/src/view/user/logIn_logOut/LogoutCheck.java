@@ -1,4 +1,4 @@
-package view.signin;
+package view.user.logIn_logOut;
 
 import java.awt.Font;
 import java.awt.event.ActionEvent;

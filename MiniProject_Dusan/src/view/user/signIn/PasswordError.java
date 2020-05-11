@@ -1,4 +1,4 @@
-package view.signin;
+package view.user.signIn;
 
 import java.awt.Font;
 import java.awt.event.ActionEvent;
@@ -9,20 +9,16 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-import model.TicketingInfo;
-import view.MainViewPanel;
-import view.ticketing.TicketingFinal;
-
-public class SuccessPanel extends JPanel{
-	public SuccessPanel(JFrame mf, JPanel tmp,JFrame sp) {
+public class PasswordError extends JPanel{
+	public PasswordError(JFrame ep) {
 		this.setSize(250,180);
 		this.setLayout(null);
-		sp.setTitle("가입 성공");
+		ep.setTitle("가입 실패");
 		
-		JLabel label = new JLabel("회원가입을 축하드립니다.");
+		JLabel label = new JLabel("비밀번호가 일치하지 않습니다.");
 		label.setFont(new Font("맑은 고딕",Font.BOLD,14));
 		label.setHorizontalAlignment(JLabel.CENTER);
-		label.setBounds(0, 40, 250, 30);
+		label.setBounds(0, 35, 250, 30);
 		
 		JButton button = new JButton("확인");
 		button.setFont(new Font("맑은 고딕",Font.BOLD,14));
@@ -30,20 +26,13 @@ public class SuccessPanel extends JPanel{
 		button.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				sp.dispose();	
-				replace(mf,tmp);
+				ep.dispose();	
 			}
 		});
 		
 		this.add(label);
 		this.add(button);
 		
-		sp.add(this);
-	}
-	
-	public void replace(JFrame mf,JPanel tmp) {
-		mf.remove(tmp);
-		new MainViewPanel(mf);
-		mf.revalidate();
+		ep.add(this);
 	}
 }

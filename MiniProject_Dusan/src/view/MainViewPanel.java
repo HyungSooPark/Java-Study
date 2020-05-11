@@ -19,9 +19,9 @@ import javax.swing.JTextField;
 
 import controller.UserInfoController;
 import model.UserInfo;
-import view.signin.LoginError;
-import view.signin.LoginSuccess;
-import view.signin.SignIn;
+import view.user.logIn_logOut.LoginError;
+import view.user.logIn_logOut.LoginSuccess;
+import view.user.signIn.SignIn;
 
 public class MainViewPanel extends JPanel{
 	public MainViewPanel(JFrame mf) {

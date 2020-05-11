@@ -5,7 +5,10 @@ import java.awt.Font;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
+import java.io.IOException;
 
+import javax.imageio.ImageIO;
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -17,7 +20,8 @@ import javax.swing.JTable;
 import model.TicketingInfo;
 import model.UserInfo;
 import view.MainViewPanel;
-import view.SelectMenu;
+import view.select.SelectMenu;
+import view.user.logIn_logOut.LogoutCheck;
 
 public class TicketingFinal extends JPanel {
 	public TicketingFinal(JFrame mf,TicketingInfo ti,UserInfo ui) {
@@ -182,14 +186,26 @@ public class TicketingFinal extends JPanel {
 		table4.setBackground(Color.LIGHT_GRAY);
 		this.add(table4);
 		
-		JButton btn = new JButton("확          인");
+		JButton btn = new JButton("확       인");
 		btn.setFont(new Font("맑은 고딕", Font.BOLD, 14));
-		btn.setBounds(100, 525, 200, 35);
+		btn.setBounds(70, 525, 100, 35);
 		this.add(btn);
 		btn.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				replace(mf,ui);
+			}
+		});
+		
+		JPanel tmp = this;
+		JButton btn2 = new JButton("예매 취소");
+		btn2.setFont(new Font("맑은 고딕", Font.BOLD, 14));
+		btn2.setBounds(230, 525, 100, 35);
+		this.add(btn2);
+		btn2.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				CheckPopup(mf,tmp,ti,ui);
 			}
 		});
 		
@@ -322,5 +338,26 @@ public class TicketingFinal extends JPanel {
 			pane.add(image);
 			break;
 		}
+	}
+	
+	public void CheckPopup(JFrame mf,JPanel tmp,TicketingInfo ti,UserInfo ui) {
+		JFrame cp = new JFrame();
+		
+		try {
+			cp.setIconImage(ImageIO.read(new File("images/delete.png")));
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		cp.setTitle("예매 취소");
+		cp.setSize(250,180);
+		cp.setLocationRelativeTo(null);
+				
+		//new LogoutCheck(mf,tmp,cp);
+		new DeleteCheck(mf,tmp,cp,ti,ui);
+		
+		cp.setResizable(false);
+		cp.setVisible(true);
+		
+		cp.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	}
 }

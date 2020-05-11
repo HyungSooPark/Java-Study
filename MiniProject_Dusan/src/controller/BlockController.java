@@ -168,7 +168,6 @@ public class BlockController {
 			rs = pstm.executeQuery();
 			
 			while(rs.next()) {
-				//System.out.println(rs.getString(1));
 				Block b = new Block(rs.getString(1));
 				arr.add(b);
 			}

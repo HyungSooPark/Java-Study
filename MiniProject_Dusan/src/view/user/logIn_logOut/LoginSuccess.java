@@ -1,4 +1,4 @@
-package view.signin;
+package view.user.logIn_logOut;
 
 import java.awt.Font;
 import java.awt.event.ActionEvent;
@@ -14,7 +14,7 @@ import javax.swing.JPanel;
 
 import model.TicketingInfo;
 import model.UserInfo;
-import view.SelectMenu;
+import view.select.SelectMenu;
 import view.ticketing.TicketingFinal;
 
 public class LoginSuccess extends JPanel {

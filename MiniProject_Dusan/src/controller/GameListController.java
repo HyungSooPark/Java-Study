@@ -14,7 +14,7 @@ public class GameListController {
 	public static void main(String[] args) {
 		GameListController glc = new GameListController();
 		//glc.save();
-		glc.load();
+		//glc.load();
 	}
 	
 	public void save() {
@@ -161,7 +161,6 @@ public class GameListController {
 			rs = pstm.executeQuery();
 			
 			while(rs.next()) {
-				//System.out.println(rs.getString(1)+" 두산 베어스 VS " + rs.getString(2));				
 				Game g = new Game(rs.getString(1),rs.getString(2));
 				arr.add(g);
 			}
