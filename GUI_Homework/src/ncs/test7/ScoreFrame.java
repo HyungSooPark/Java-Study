@@ -2,6 +2,8 @@ package ncs.test7;
 
 import java.awt.Color;
 import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
@@ -85,9 +87,23 @@ public class ScoreFrame extends JFrame {
 		average.setBorder(BorderFactory.createLineBorder(Color.black,1));
 		this.add(average);
 		
-		calcBtn.addActionListener(new ScoreFrame$ActionHandler(calcBtn,total,average,javaScore,sqlScore));
+		calcBtn.addActionListener(new ScoreFrame$ActionHandler());
 		
 		this.setVisible(true);
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		}
+	
+	public class ScoreFrame$ActionHandler implements ActionListener{
+		
+		@Override
+		public void actionPerformed(ActionEvent event) {
+			int totalScore = Integer.parseInt(javaScore.getText())+Integer.parseInt(sqlScore.getText());
+			total.setText(String.valueOf(totalScore));
+			average.setText(String.valueOf(totalScore/2));
+			
+		}
+	}
+
 }
+
+
